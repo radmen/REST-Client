@@ -22,7 +22,7 @@ class Client {
   }
   
   /**
-   * Sets dubg mode
+   * Sets debug mode
    * 
    * If debug mode is turned on every sent and received data will be saved
    * to file: curl_{class_name}.log (ex. curl_rest_client.log)
@@ -78,7 +78,7 @@ class Client {
    * @return string
    */
   protected function getCookiesPath() {
-	  return realpath('temp').DIRECTORY_SEPARATOR.$this->mCookieName.'.txt';
+    return realpath('temp').DIRECTORY_SEPARATOR.$this->mCookieName.'.txt';
   }
   
   /**
@@ -104,10 +104,10 @@ class Client {
   protected function initCurl($pUrl) {
     $curl = curl_init($this->buildUrl($pUrl));
     
-		curl_setopt($curl, CURLOPT_HEADER, true);
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_COOKIEFILE, $this->getCookiesPath());
-		curl_setopt($curl, CURLOPT_COOKIEJAR, $this->getCookiesPath());
+    curl_setopt($curl, CURLOPT_HEADER, true);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_COOKIEFILE, $this->getCookiesPath());
+    curl_setopt($curl, CURLOPT_COOKIEJAR, $this->getCookiesPath());
     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
     curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
     
@@ -167,14 +167,14 @@ class Client {
   public function post($pUrl, $pArgs) {
     $curl = $this->initCurl($pUrl);
     
-		curl_setopt($curl, CURLOPT_POST, true);
-		curl_setopt($curl, CURLOPT_POSTFIELDS, $pArgs);
+    curl_setopt($curl, CURLOPT_POST, true);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $pArgs);
     
     return $this->request($curl);
   }
   
   /**
-   * SEnds PUT request
+   * Sends PUT request
    *
    * @param string $pUrl
    * @param array $pArgs
@@ -199,7 +199,7 @@ class Client {
   public function delete($pUrl, array $pArgs = null) {
     $curl = $this->initCurl($pUrl);
     
-		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
     
     if(null !== $pArgs) {
       curl_setopt($curl, CURLOPT_POSTFIELDS, $delArgs);
@@ -221,17 +221,17 @@ class Client {
    * @return mixed
    */
   protected function request($pCurl) {
-		$response = curl_exec($pCurl);
+    $response = curl_exec($pCurl);
     
     if(false === $response) {
       throw new RuntimeException('CURL Error: '.  curl_error($pCurl), curl_errno($pCurl));
     }
     
     $header_size = curl_getinfo($pCurl, CURLINFO_HEADER_SIZE);
-		$headers     = substr($response, 0, $header_size - 4);
-		$body        = substr($response, $header_size);
-		
-		curl_close($pCurl);
+    $headers     = substr($response, 0, $header_size - 4);
+    $body        = substr($response, $header_size);
+    
+    curl_close($pCurl);
     
     $parsed_body = Client\Response::process($headers, $body);
     

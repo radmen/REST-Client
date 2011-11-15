@@ -74,19 +74,19 @@ class Response {
         break;
 
       case 400:
-        throw new InvalidArgumentException($this->mBody, 400);
+        throw new \InvalidArgumentException($this->mBody, 400);
 
       case 401:
-        throw new LogicException('Unauthorized');
+        throw new \LogicException('Unauthorized');
 
       case 403:
-        throw new RuntimeException('API key was invalid.', 403);
+        throw new \RuntimeException('API key was invalid.', 403);
 
       case 404:
-        throw new LogicException('Resource not found', 404);
+        throw new \LogicException('Resource not found', 404);
 
       case 500:
-        throw new RuntimeException('Internal server error', 500);
+        throw new \RuntimeException('Internal server error', 500);
     }
   }
 

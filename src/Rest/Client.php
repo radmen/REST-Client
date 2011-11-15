@@ -215,7 +215,7 @@ class Client {
    * If some headers indicate an error (e.g. http code 401) an Exception will be throwed.
    *
    * @throws LogicException on codes 401 (Unauthorized), 404 (Resource not found)
-   * @throws RuntimeException on codes 500, 403
+   * @throws RuntimeException on codes 500, 403, and CURL errors
    * @throws InvalidArgumentException on code 400
    * @param resource $pCurl
    * @return mixed
@@ -224,7 +224,7 @@ class Client {
     $response = curl_exec($pCurl);
     
     if(false === $response) {
-      throw new RuntimeException('CURL Error: '.  curl_error($pCurl), curl_errno($pCurl));
+      throw new \RuntimeException('CURL Error: '.  curl_error($pCurl), curl_errno($pCurl));
     }
     
     $header_size = curl_getinfo($pCurl, CURLINFO_HEADER_SIZE);
